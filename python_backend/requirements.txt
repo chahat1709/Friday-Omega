@@ -1,0 +1,70 @@
+# requirements.txt - FRIDAY Omega AI Cyber Deck Dependencies
+
+# Core LLM
+llama-cpp-python==0.2.20
+
+# Vision & Image Processing
+Pillow==10.0.0
+opencv-python==4.8.1.78
+
+# Automation
+pyautogui==0.9.54
+pyperclip==1.8.2
+AppOpener==1.7
+
+# Networking & Security
+requests==2.31.0
+scapy==2.5.0
+python-nmap==0.7.1
+
+# Web Server
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+websockets==12.0
+
+# Voice & Audio
+sounddevice==0.4.6
+numpy==1.24.3
+faster-whisper==1.0.0
+pyttsx3==2.90
+
+# TTS (Kokoro ONNX)
+kokoro-onnx==0.4.0
+onnxruntime==1.17.0
+
+# VAD
+torch>=2.0.0
+
+# Memory (Vector DB)
+chromadb==0.4.22
+
+# Utilities
+python-dateutil==2.8.2
+pytz==2023.3
+psutil==5.9.5
+python-dotenv==1.0.0
+
+# Window Management
+PyGetWindow==0.0.9
+
+# Web Automation
+selenium==4.15.2
+webdriver-manager==4.0.1
+
+# OSINT
+python-whois==0.8.0
+dnspython==2.4.2
+
+# Metasploit Integration
+pymetasploit3==1.0.3
+
+# Screen Brightness
+screen-brightness-control==0.22.3
+
+# OCR (optional)
+# pytesseract==0.3.10
+
+# IoT Integrations (install as needed)
+# python-kasa==0.5.0
+# tinytuya==1.12.8
+# paho-mqtt==1.6.1
