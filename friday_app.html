@@ -1,0 +1,2235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' data: blob: https: http: ws: wss:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F.R.I.D.A.Y. | MARK III INTERFACE</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap');
+
+        :root {
+            --primary: #00f3ff;
+            --primary-dim: rgba(0, 243, 255, 0.3);
+            --secondary: #0066ff;
+            --alert: #ff3333;
+            --bg-dark: #020408;
+            --glass: rgba(10, 20, 30, 0.6);
+            --border: rgba(0, 243, 255, 0.3);
+            --text-glow: 0 0 5px var(--primary);
+            --box-glow: 0 0 15px rgba(0, 243, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scrollbar-width: none;
+        }
+
+        *::-webkit-scrollbar {
+            display: none;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--primary);
+            font-family: 'Share Tech Mono', monospace;
+            height: 100vh;
+            overflow: hidden;
+            display: grid;
+            grid-template-rows: 60px 1fr 30px;
+            background: radial-gradient(circle at center, #0a1525 0%, #000000 100%);
+            position: relative;
+        }
+
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 50%, black 100%);
+            pointer-events: none;
+            z-index: 99;
+        }
+
+        .hud-line {
+            position: absolute;
+            background: var(--border);
+            z-index: 0;
+        }
+
+        .hud-top-left {
+            top: 20px;
+            left: 20px;
+            width: 150px;
+            height: 1px;
+        }
+
+        .hud-top-right {
+            top: 20px;
+            right: 20px;
+            width: 150px;
+            height: 1px;
+        }
+
+        .hud-corner {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--primary);
+            opacity: 0.6;
+            transition: all 0.5s ease;
+        }
+
+        .tl {
+            top: 10px;
+            left: 10px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .tr {
+            top: 10px;
+            right: 10px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .bl {
+            bottom: 10px;
+            left: 10px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .br {
+            bottom: 10px;
+            right: 10px;
+            border-left: none;
+            border-top: none;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(90deg, transparent 0%, rgba(0, 243, 255, 0.05) 50%, transparent 100%);
+            z-index: 10;
+        }
+
+        .brand {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 6px;
+            text-shadow: var(--text-glow);
+            font-weight: 700;
+        }
+
+        .system-status {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            border: 1px solid var(--border);
+            padding: 5px 15px;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: 320px 1fr 320px;
+            gap: 20px;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .panel {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            backdrop-filter: blur(4px);
+            transition: all 0.3s ease;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .panel:hover {
+            border-color: var(--primary);
+            box-shadow: var(--box-glow), inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .panel-header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            font-size: 1.1rem;
+            color: #fff;
+            letter-spacing: 3px;
+            display: flex;
+            justify-content: space-between;
+            text-transform: uppercase;
+        }
+
+        /* Update Banner Styles */
+        .update-banner {
+            background: linear-gradient(90deg, var(--alert), var(--secondary));
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .update-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .update-icon {
+            font-size: 1.2rem;
+            animation: bounce 1s infinite;
+        }
+
+        .update-btn {
+            background: var(--primary);
+            color: black;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .update-btn:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+
+        .dismiss-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 8px;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-3px);
+            }
+
+            60% {
+                transform: translateY(-1px);
+            }
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.1);
+        }
+
+        .bar-container {
+            width: 120px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            box-shadow: 0 0 10px var(--primary);
+            transition: width 0.5s ease;
+        }
+
+        .center-stage {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .reactor-container {
+            width: 220px;
+            height: 220px;
+            position: relative;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .reactor-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        .r1 {
+            width: 100%;
+            height: 100%;
+            border-width: 2px;
+            border-color: rgba(0, 243, 255, 0.5);
+            border-left: transparent;
+            border-right: transparent;
+            animation: spin 10s linear infinite;
+        }
+
+        .r2 {
+            width: 85%;
+            height: 85%;
+            border-width: 5px;
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+            animation: spin-rev 6s linear infinite;
+        }
+
+        .r3 {
+            width: 70%;
+            height: 70%;
+            border: 1px dashed var(--primary);
+            animation: spin 20s linear infinite;
+        }
+
+        .core {
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #fff 0%, var(--primary) 60%, transparent 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 50px var(--primary), 0 0 100px var(--primary);
+            animation: pulse 2s ease-in-out infinite;
+            z-index: 5;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin-rev {
+            100% {
+                transform: rotate(-360deg);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+                box-shadow: 0 0 50px var(--primary);
+            }
+
+            50% {
+                transform: scale(0.9);
+                opacity: 0.7;
+                box-shadow: 0 0 20px var(--primary);
+            }
+        }
+
+        .chat-container {
+            width: 100%;
+            height: 250px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--border);
+            padding: 15px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            font-family: 'Share Tech Mono', sans-serif;
+            font-size: 0.95rem;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
+        }
+
+        .msg {
+            margin-bottom: 10px;
+            padding: 5px 10px;
+            line-height: 1.4;
+        }
+
+        .msg.user {
+            color: #888;
+            text-align: right;
+            border-right: 2px solid var(--secondary);
+        }
+
+        .msg.ai {
+            color: var(--primary);
+            text-align: left;
+            border-left: 2px solid var(--primary);
+            text-shadow: 0 0 5px rgba(0, 243, 255, 0.3);
+        }
+
+        .input-area {
+            width: 100%;
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            flex: 1;
+            background: rgba(0, 20, 30, 0.8);
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 12px;
+            font-family: 'Share Tech Mono';
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+        }
+
+        button {
+            background: rgba(0, 243, 255, 0.05);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 0 25px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-family: 'Share Tech Mono';
+            transition: 0.2s;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        button:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .visualizer-container {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            opacity: 0.5;
+            margin-top: 5px;
+        }
+
+        .viz-bar {
+            width: 4px;
+            background: var(--primary);
+            height: 5px;
+            transition: height 0.1s ease;
+        }
+
+        .cam-feed {
+            width: 100%;
+            height: 180px;
+            background: #000;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            background: #000;
+        }
+
+        .cam-overlay {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 0.7rem;
+            color: var(--alert);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 2px 8px;
+            z-index: 5;
+            letter-spacing: 2px;
+        }
+
+        .cam-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0, 243, 255, 0.1) 1px, transparent 1px), linear-gradient(rgba(0, 243, 255, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.3;
+            z-index: 4;
+            pointer-events: none;
+        }
+
+        .cam-screen {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            padding: 0 20px;
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 0.78rem;
+            letter-spacing: 2px;
+        }
+
+        .cam-screen img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border: 1px solid var(--border);
+            box-shadow: 0 0 14px rgba(0, 243, 255, 0.18);
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .cam-actions {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .cam-actions button {
+            padding: 8px 12px;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            background: rgba(0, 243, 255, 0.06);
+        }
+
+        .cam-actions button:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .cam-preview {
+            margin-top: 12px;
+            min-height: 60px;
+            border: 1px dashed var(--border);
+            padding: 10px 12px;
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.6);
+            background: rgba(0, 0, 0, 0.35);
+            letter-spacing: 1.6px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .cam-preview strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .log-list {
+            font-size: 0.75rem;
+            color: #888;
+            height: 180px;
+            overflow-y: auto;
+            font-family: 'Consolas', monospace;
+        }
+
+        .log-item {
+            margin-bottom: 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            padding: 2px 0;
+            display: flex;
+        }
+
+        .log-time {
+            color: var(--secondary);
+            margin-right: 10px;
+            min-width: 60px;
+        }
+
+        .log-msg {
+            color: #aaa;
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.3);
+            border-top: 1px solid var(--border);
+            background: #000;
+        }
+
+        /* BOOT SCREEN */
+        #boot-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Consolas', monospace;
+        }
+
+        .boot-terminal {
+            width: 600px;
+            color: var(--primary);
+        }
+
+        .boot-header {
+            border-bottom: 2px solid var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+        }
+
+        #boot-log {
+            height: 150px;
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .boot-progress {
+            width: 100%;
+            height: 20px;
+            border: 1px solid var(--primary);
+            padding: 2px;
+        }
+
+        .boot-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .boot-status {
+            margin-top: 10px;
+            text-align: right;
+            animation: pulse 1s infinite;
+        }
+
+        /* 3D UI LAYOUT */
+        main {
+            perspective: 1500px;
+            /* Depth */
+        }
+
+        .left-wing {
+            transform: rotateY(15deg);
+            transform-origin: right center;
+            border-right: 5px solid var(--primary);
+        }
+
+        .right-wing {
+            transform: rotateY(-15deg);
+            transform-origin: left center;
+            border-left: 5px solid var(--primary);
+        }
+
+        .center-stage {
+            transform: translateZ(50px);
+            /* Bring center forward */
+            z-index: 20;
+        }
+
+        @media (max-width: 1000px) {
+            main {
+                perspective: none;
+                grid-template-columns: 1fr;
+            }
+
+            .left-wing,
+            .right-wing,
+            .center-stage {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- BOOT SEQUENCE UI -->
+    <div id="boot-overlay">
+        <div class="boot-terminal">
+            <div class="boot-header">STARK INDUSTRIES BIOS v3.0</div>
+            <div id="boot-log">
+                <div>&gt; INITIALIZING KERNEL...</div>
+                <div>&gt; LOADING NEURAL ENGINE...</div>
+                <div>&gt; CHECKING MEMORY BANKS...</div>
+            </div>
+            <div class="boot-progress">
+                <div class="boot-bar" id="bootBar"></div>
+            </div>
+            <div class="boot-status" id="bootStatus">SYSTEM CHECK IN PROGRESS</div>
+        </div>
+    </div>
+
+    <!-- MAIN INTERFACE (Hidden until Boot Complete) -->
+    <div class="hud-container" id="mainInterface" style="opacity: 0; transition: opacity 1s;">
+        <div class="hud-corner tl"></div>
+        <div class="hud-corner tr"></div>
+        <div class="hud-corner bl"></div>
+        <div class="hud-corner br"></div>
+
+        <header>
+            <div class="brand">F.R.I.D.A.Y. <span style="font-size: 0.9rem; color: var(--secondary);">// MK III</span>
+            </div>
+            <div class="system-status" id="clock">00:00:00</div>
+        </header>
+
+        <main>
+            <!-- LEFT PANEL: METRICS -->
+            <section class="panel left-wing">
+                <div class="panel-header">SYSTEM METRICS A-01</div>
+
+                <div class="metric-row">
+                    <span>CPU LOAD</span>
+                    <div class="bar-container">
+                        <div class="bar-fill" id="cpuBar"></div>
+                    </div>
+                    <span id="cpuText">--</span>
+                </div>
+                <div class="metric-row">
+                    <span>MEMORY</span>
+                    <div class="bar-container">
+                        <div class="bar-fill" id="ramBar"></div>
+                    </div>
+                    <span id="ramText">--</span>
+                </div>
+                <div class="metric-row">
+                    <span>NETWORK</span>
+                    <div class="bar-container">
+                        <div class="bar-fill" id="netBar"></div>
+                    </div>
+                    <span id="netText">--</span>
+                </div>
+
+                <div class="panel-header" style="margin-top: 20px;">PROTOCOLS</div>
+                <div style="font-size: 0.8rem; line-height: 1.6; color: var(--secondary);">
+                    &gt; SENTINEL: ONLINE<br>
+                    &gt; ENCRYPTION: ACTIVE<br>
+                    &gt; VOICE: STANDBY
+                </div>
+            </section>
+
+            <!-- CENTER: CORE & CHAT -->
+            <section class="center-stage">
+                <div class="reactor-container">
+                    <div class="reactor-ring r1"></div>
+                    <div class="reactor-ring r2"></div>
+                    <div class="reactor-ring r3"></div>
+                    <div class="core" id="coreElement"></div>
+                    <!-- Live Voice Canvas -->
+                    <canvas id="waveformCanvas"
+                        style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 200px; height: 100px; z-index: 5; pointer-events: none;"></canvas>
+                </div>
+
+                <!-- CHAT HIDDEN FOR VOICE-ONLY MODE -->
+                <div class="chat-container" id="chatFeed" style="display: none;">
+                    <div class="msg ai">SYSTEM READY. AWAITING INSTRUCTION.</div>
+                </div>
+
+                <div class="input-area"
+                    style="justify-content: center; border: none; background: transparent; box-shadow: none;">
+                    <input type="text" id="userInput" placeholder="COMMAND LINE INPUT..." autocomplete="off"
+                        style="display: none;">
+                    <button id="sendBtn" style="display: none;">EXECUTE</button>
+                    <!-- CONTROLS REPOSITIONED -->
+                    <button id="voiceBtn" title="Voice Command"
+                        style="min-width: 120px; font-size: 1.1rem;">VOICE</button>
+                    <button id="liveVoiceBtn" title="Live Mode"
+                        style="background: var(--secondary); min-width: 120px; font-size: 1.1rem; margin-left: 20px;">LIVE</button>
+                </div>
+            </section>
+
+            <!-- RIGHT PANEL: VISION -->
+            <section class="panel right-wing">
+                <div class="panel-header">OPTICAL ARRAY V-09</div>
+                <div class="cam-feed" id="camContainer">
+                    <div class="cam-grid"></div>
+                    <div class="cam-overlay" id="camStatus">STANDBY</div>
+                    <div class="cam-screen" id="camScreen">
+                        <span>[ OPTICS STANDBY ]</span>
+                    </div>
+                </div>
+                <div class="cam-actions">
+                    <button id="cameraInitBtn">INIT OPTICS</button>
+                    <button id="cameraCaptureBtn">CAPTURE</button>
+                </div>
+                <div class="cam-preview" id="camPreview">
+                    <span>NO DATA</span>
+                </div>
+
+                <div class="panel-header" style="margin-top: 20px;">LOG FEED</div>
+                <div class="log-list" id="logFeed"></div>
+            </section>
+        </main>
+
+        <footer>
+            <div>SECURE CONNECTION: ESTABLISHED</div>
+            <div>STATUS: ONLINE</div>
+        </footer>
+    </div>
+
+    <footer>
+        <div>STARK INDUSTRIES | SECURE SERVER: US-EAST-4</div>
+        <div>IP: 192.168.X.X [MASKED]</div>
+    </footer>
+
+    <!-- DYNAMIC CONFIG LOADER (Robust) -->
+    <script>
+        // SMART FRAMEWORK: Load Port from Handshake File
+        // We use a fetch loop to wait for the backend to write config.js
+        (async function loadConfig() {
+            let retries = 0;
+            const maxRetries = 20; // Wait up to 10 seconds
+
+            while (retries < maxRetries) {
+                try {
+                    // Try to load config.js as a script
+                    await new Promise((resolve, reject) => {
+                        const script = document.createElement('script');
+                        script.src = 'config.js?t=' + Date.now(); // JS Cache bust is fine for HTTP, but for file:// we might just skip it or use clean path
+                        if (window.location.protocol === 'file:') script.src = 'config.js'; // No query string for local files
+
+                        script.onload = resolve;
+                        script.onerror = reject;
+                        document.head.appendChild(script);
+                    });
+
+                    // If loaded, apply settings
+                    if (typeof RUNTIME_PORT !== 'undefined') {
+                        console.log(`SMART FRAMEWORK: Handshake Successful. Port: ${RUNTIME_PORT}`);
+                        // Update globals
+                        window.DEFAULT_BACKEND_PORT = RUNTIME_PORT;
+                        window.API_BASE = 'http://localhost:' + RUNTIME_PORT;
+                        return; // Done
+                    }
+                } catch (e) {
+                    console.log("Waiting for backend handshake...");
+                }
+
+                // Wait 500ms and retry
+                await new Promise(r => setTimeout(r, 500));
+                retries++;
+            }
+            console.warn("Handshake Timed Out. Falling back to default 5555.");
+            // Set fallback globals if config.js was never loaded
+            if (typeof window.DEFAULT_BACKEND_PORT === 'undefined') {
+                window.DEFAULT_BACKEND_PORT = 5555;
+                window.API_BASE = 'http://localhost:5555';
+            }
+        })();
+
+        // Ensure API_BASE and DEFAULT_BACKEND_PORT are defined for immediate use,
+        // though they will be overwritten by the loader if config.js is found.
+        // This allows the rest of the script to run without errors even before config.js loads.
+        window.DEFAULT_BACKEND_PORT = window.DEFAULT_BACKEND_PORT || 5555;
+        window.API_BASE = window.API_BASE || 'http://localhost:' + window.DEFAULT_BACKEND_PORT;
+
+        const API_ENDPOINTS = Object.freeze({
+            health: '/health',
+            metrics: '/api/metrics',
+            chat: '/command',
+            voice: '/voice-command',
+            commands: '/api/commands',
+            plan: '/agent/plan',
+            executePlan: '/agent/executePlan',
+            weather: '/api/services/weather',
+            whatsapp: '/services/whatsapp/send',
+            ollamaStatus: '/api/ollama/status',
+            systemStatus: '/api/system/status',
+            cameraInit: '/api/camera/init',
+            cameraStatus: '/api/camera/status',
+            cameraFrame: '/upload_frame',
+            cameraCapture: '/api/camera/capture',
+            cameraStop: '/api/camera/stop',
+            tts: '/tts'
+        });
+
+        // Update notification system
+        const updateBanner = document.getElementById('update-banner');
+        const updateMessage = document.getElementById('update-message');
+        const updateButton = document.getElementById('update-button');
+        const dismissUpdate = document.getElementById('dismiss-update');
+
+        // Check if running in Electron
+        const isElectron = typeof window !== 'undefined' && window.process && window.process.type === 'renderer';
+
+        if (isElectron) {
+            const { ipcRenderer } = require('electron');
+
+            // Listen for update events from main process
+            ipcRenderer.on('update-available', (event, info) => {
+                updateMessage.textContent = `Update v${info.version} available! Click to download.`;
+                updateBanner.style.display = 'block';
+            });
+
+            ipcRenderer.on('update-downloaded', (event, info) => {
+                updateMessage.textContent = `Update v${info.version} downloaded! Restart to install.`;
+                updateButton.textContent = 'RESTART';
+            });
+
+            ipcRenderer.on('update-error', (event, error) => {
+                updateMessage.textContent = 'Update failed. Check logs for details.';
+                updateBanner.style.display = 'block';
+                setTimeout(() => updateBanner.style.display = 'none', 5000);
+            });
+
+            // Handle update button click
+            updateButton.addEventListener('click', () => {
+                if (updateButton.textContent === 'RESTART') {
+                    ipcRenderer.send('restart-app');
+                } else {
+                    ipcRenderer.send('download-update');
+                }
+            });
+        }
+
+        // Dismiss update banner
+        // Dismiss update banner
+        if (dismissUpdate) {
+            dismissUpdate.addEventListener('click', () => {
+                updateBanner.style.display = 'none';
+            });
+        }
+
+        async function playTTS(text) {
+            if (!text) return;
+            try {
+                const response = await apiFetch(API_ENDPOINTS.tts, {
+                    method: 'POST',
+                    body: { text }
+                });
+                // apiFetch returns parsed JSON or text. But for audio, we need blob.
+                // Wait, apiFetch implementation handles JSON/Text. It doesn't handle Blob.
+                // We need to bypass apiFetch or modify it.
+                // Let's use raw fetch here for simplicity.
+            } catch (e) {
+                console.error('TTS Error:', e);
+            }
+        }
+
+        async function playTTS_Raw(text, emotion = '[NEUTRAL]') {
+            if (!text) return;
+            try {
+                // Direct call to Python Backend (Reliable)
+                const response = await fetch(buildUrl(API_ENDPOINTS.tts), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text, emotion })
+                });
+                if (!response.ok) throw new Error('TTS failed');
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const audio = new Audio(url);
+                audio.play();
+            } catch (e) {
+                addLog(`TTS Error: ${e.message}`, 'warn');
+            }
+        }
+
+        const state = {
+            metricsInterval: null,
+            metricsFailureCount: 0,
+            voiceActive: false,
+            voiceRecognition: null,
+            visualizerFrame: null,
+            cameraActive: false,
+            lastCapture: null
+        };
+
+        const refs = {
+            clock: document.getElementById('clock'),
+            cpuBar: document.getElementById('cpuBar'),
+            cpuText: document.getElementById('cpuText'),
+            ramBar: document.getElementById('ramBar'),
+            ramText: document.getElementById('ramText'),
+            netBar: document.getElementById('netBar'),
+            netText: document.getElementById('netText'),
+            tempBar: document.getElementById('tempBar'),
+            tempText: document.getElementById('tempText'),
+            chatFeed: document.getElementById('chatFeed'),
+            userInput: document.getElementById('userInput'),
+            sendBtn: document.getElementById('sendBtn'),
+            voiceBtn: document.getElementById('voiceBtn'),
+            visualizerBars: Array.from(document.querySelectorAll('.viz-bar')),
+            logFeed: document.getElementById('logFeed'),
+            coreElement: document.getElementById('coreElement'),
+            camStatus: document.getElementById('camStatus'),
+            camScreen: document.getElementById('camScreen'),
+            camPreview: document.getElementById('camPreview'),
+            cameraInitBtn: document.getElementById('cameraInitBtn'),
+            cameraStatusBtn: document.getElementById('cameraStatusBtn'),
+            cameraCaptureBtn: document.getElementById('cameraCaptureBtn'),
+            cameraStopBtn: document.getElementById('cameraStopBtn')
+        };
+
+        function buildUrl(path) {
+            if (!path) return API_BASE;
+            if (path.startsWith('http')) return path;
+            return path.startsWith('/') ? `${API_BASE}${path}` : `${API_BASE}/${path}`;
+        }
+
+        async function apiFetch(path, options = {}) {
+            const { method = 'GET', headers = {}, body, timeout = 30000, ...rest } = options;
+            const finalHeaders = { ...headers };
+            let finalBody = body;
+
+            if (body && typeof body === 'object' && !(body instanceof FormData)) {
+                if (!finalHeaders['Content-Type']) {
+                    finalHeaders['Content-Type'] = 'application/json';
+                }
+                finalBody = JSON.stringify(body);
+            }
+
+            const sameOrigin = !API_BASE;
+
+            // Add timeout wrapper
+            const fetchPromise = fetch(buildUrl(path), {
+                method,
+                headers: finalHeaders,
+                body: finalBody,
+                credentials: sameOrigin ? 'same-origin' : 'omit',
+                ...rest
+            });
+
+            const timeoutPromise = new Promise((_, reject) =>
+                setTimeout(() => reject(new Error(`Request timeout after ${timeout}ms`)), timeout)
+            );
+
+            const response = await Promise.race([fetchPromise, timeoutPromise]);
+
+            if (!response.ok) {
+                const text = await response.text().catch(() => '');
+                throw new Error(text || `${response.status} ${response.statusText}`);
+            }
+
+            const contentType = response.headers.get('Content-Type') || '';
+            return contentType.includes('application/json') ? response.json() : response.text();
+        }
+
+        function clamp(value, min, max) {
+            const number = Number(value);
+            if (Number.isNaN(number)) return min;
+            return Math.max(min, Math.min(max, number));
+        }
+
+        function updateClock() {
+            if (!refs.clock) return;
+            refs.clock.textContent = new Date().toLocaleTimeString('en-US', { hour12: false });
+        }
+
+        function addLog(message, level = 'info') {
+            if (!refs.logFeed) return;
+            const entry = document.createElement('div');
+            entry.className = 'log-item';
+
+            const time = document.createElement('span');
+            time.className = 'log-time';
+            time.textContent = `[${new Date().toLocaleTimeString('en-US', { hour12: false })}]`;
+
+            const text = document.createElement('span');
+            text.className = 'log-msg';
+            text.textContent = String(message || '');
+
+            if (level === 'warn') {
+                text.style.color = '#ffd166';
+            } else if (level === 'error') {
+                text.style.color = 'var(--alert)';
+            }
+
+            entry.appendChild(time);
+            entry.appendChild(text);
+            refs.logFeed.prepend(entry);
+
+            while (refs.logFeed.children.length > 40) {
+                refs.logFeed.lastElementChild?.remove();
+            }
+        }
+
+        function setBar(barElement, value, labelElement, suffix = '%') {
+            if (barElement) {
+                barElement.style.width = `${clamp(value, 0, 100)}%`;
+            }
+            if (labelElement) {
+                labelElement.textContent = `${Math.round(clamp(value, 0, 100))}${suffix}`;
+            }
+        }
+
+        function updateMetrics(payload) {
+            if (!payload) return;
+            let data = payload;
+            if (typeof data === 'string') {
+                try {
+                    data = JSON.parse(data);
+                } catch {
+                    return;
+                }
+            }
+
+            const cpu = clamp(data.cpu ?? data.cpuPercent ?? data.cpuLoad ?? 0, 0, 100);
+            const ram = clamp(data.ram ?? data.memory ?? data.memoryPercent ?? 0, 0, 100);
+            const network = clamp(data.network ?? data.net ?? data.networkPercent ?? 0, 0, 100);
+            const tempRaw = Number(data.temperature ?? data.temp ?? data.cpuTemp ?? data.gpuTemp ?? 0);
+            const tempPercent = clamp(tempRaw, 0, 100);
+
+            setBar(refs.cpuBar, cpu, refs.cpuText);
+            setBar(refs.ramBar, ram, refs.ramText);
+            setBar(refs.netBar, network, refs.netText);
+            setBar(refs.tempBar, tempPercent, null);
+
+            if (refs.netText) {
+                if (Number.isFinite(network)) {
+                    refs.netText.textContent = `${Math.round(network)}%`;
+                    refs.netText.style.color = network > 60 ? 'var(--primary)' : network > 30 ? 'var(--secondary)' : 'var(--alert)';
+                } else {
+                    refs.netText.textContent = '--';
+                    refs.netText.style.color = 'var(--secondary)';
+                }
+            }
+
+            if (refs.tempText) {
+                if (Number.isFinite(tempRaw) && tempRaw > 0) {
+                    refs.tempText.innerHTML = `${tempRaw.toFixed(1)}&deg;C`;
+                } else {
+                    refs.tempText.textContent = '--';
+                }
+            }
+        }
+
+        async function fetchMetrics() {
+            try {
+                const data = await apiFetch(API_ENDPOINTS.metrics);
+                state.metricsFailureCount = 0;
+                updateMetrics(data);
+            } catch (error) {
+                state.metricsFailureCount += 1;
+                if (state.metricsFailureCount <= 3 || state.metricsFailureCount % 10 === 0) {
+                    addLog(`Metric uplink degraded: ${error.message}`, state.metricsFailureCount > 2 ? 'warn' : 'info');
+                }
+            }
+        }
+
+        async function fetchHealth() {
+            try {
+                const data = await apiFetch(API_ENDPOINTS.health);
+                const summaryParts = [
+                    `Version ${data.version || 'unknown'}`,
+                    `Voice ${data.features?.voiceAssistant ? 'ENABLED' : 'OFFLINE'}`
+                ];
+                addLog(`Health check nominal :: ${summaryParts.join(' | ')}`);
+            } catch (error) {
+                addLog(`Health check failed: ${error.message}`, 'warn');
+            }
+        }
+
+        async function fetchOllamaStatus() {
+            try {
+                const data = await apiFetch(API_ENDPOINTS.ollamaStatus);
+                addLog(`LLM online :: ${data.model || 'unknown model'} ready`);
+            } catch (error) {
+                addLog(`LLM channel offline: ${error.message}`, 'warn');
+            }
+        }
+
+        function ensureChatScroll() {
+            if (!refs.chatFeed) return;
+            refs.chatFeed.scrollTop = refs.chatFeed.scrollHeight;
+        }
+
+        function typeWriter(text, element) {
+            const content = String(text || '');
+            let index = 0;
+
+            function step() {
+                if (index >= content.length) return;
+                const char = content[index];
+                if (char === '\n') {
+                    element.appendChild(document.createElement('br'));
+                } else {
+                    element.appendChild(document.createTextNode(char));
+                }
+                index += 1;
+                ensureChatScroll();
+                setTimeout(step, 15);
+            }
+
+            step();
+        }
+
+        function pulseCore(multiplier = 40) {
+            if (!refs.coreElement) return;
+            refs.coreElement.style.boxShadow = '0 0 80px var(--primary)';
+            const duration = Math.min(4000, Math.max(600, multiplier * 30));
+            setTimeout(() => {
+                refs.coreElement.style.boxShadow = '';
+            }, duration);
+        }
+
+        function addMessage(text, role = 'ai') {
+            if (!refs.chatFeed) return;
+            const entry = document.createElement('div');
+            entry.className = `msg ${role}`;
+
+            if (role === 'ai') {
+                refs.chatFeed.appendChild(entry);
+                typeWriter(text, entry);
+                pulseCore(String(text || '').length);
+            } else {
+                entry.textContent = String(text || '');
+                refs.chatFeed.appendChild(entry);
+            }
+
+            ensureChatScroll();
+            return entry;
+        }
+
+        function toggleSendButton(disabled, label) {
+            if (!refs.sendBtn) return;
+            refs.sendBtn.disabled = !!disabled;
+            refs.sendBtn.textContent = label || 'EXECUTE';
+        }
+
+        async function sendChat(rawMessage) {
+            const message = (rawMessage || '').trim();
+            if (!message) return;
+
+            addMessage(message, 'user');
+            toggleSendButton(true, 'TRANSMITTING');
+
+            try {
+                // Use Dynamic Backend Port via apiFetch wrapper
+                const data = await apiFetch(API_ENDPOINTS.chat, {
+                    method: 'POST',
+                    body: { text: message }
+                });
+
+                // Handle both response and message field  
+                let reply = data.response || data.result || 'Directive acknowledged.';
+
+                // Ensure reply is a string
+                if (typeof reply !== 'string') {
+                    reply = String(reply || 'System acknowledged your command.');
+                }
+
+                const confidence = Number(1.0); // Python brain is confident
+                const el = addMessage(reply, 'ai');
+                if (confidence >= 0.6) {
+                    // If confidence is modest (0.6-0.8) and it is a visual answer, ask user to confirm before speaking
+                    const isVisual = (data.intent === 'visual_analysis' || data.source === 'python_brain' || /what (am i holding|do i have|am i wearing|did i have)/i.test(message));
+                    if (confidence < 0.8 && isVisual) {
+                        // Ask for a quick confirmation
+                        // For visual messages: show confirm and training UI
+                        const el = addMessage(reply, 'ai');
+                        // Show TTS confirmation
+                        showQuickConfirm(`I'm not 100% sure: ${reply}. Do you want me to say this out loud?`, async (confirmed) => {
+                            if (confirmed) {
+                                playTTS_Raw(reply);
+                            } else {
+                                addMessage('Okay, not playing audio. You can show it closer or describe it.', 'ai');
+                            }
+                        });
+                        // Attach training UI for objects that are present
+                        if (data.objects && data.objects.length) attachVerificationControls(el, reply, data.objects || [], data.source || 'unknown', data.imagePath || null);
+                    } else {
+                        playTTS_Raw(reply);
+                        if (isVisual && data.objects && data.objects.length) attachVerificationControls(el, reply, data.objects || [], data.source || 'unknown', data.imagePath || null);
+                    }
+                } else {
+                    addLog('Low confidence in visual recognition; not playing TTS.', 'warn');
+                    // Optionally prompt user for closeup
+                    addMessage('I am not confident about that. Can you show it closer or describe it?', 'ai');
+                }
+                addLog('Chat directive relayed to core.');
+
+            } catch (error) {
+                const errorMsg = error.message || 'Unknown transmission error';
+                console.error('Chat Error:', error);
+                addMessage(`⚠️ Transmission fault: ${errorMsg}`, 'ai');
+                addLog(`Chat relay error: ${errorMsg}`, 'error');
+
+                // Try to help the user troubleshoot
+                if (errorMsg.includes('404')) {
+                    addLog('Chat endpoint not found - backend might be offline', 'error');
+                } else if (errorMsg.includes('timeout') || errorMsg.includes('Timeout')) {
+                    addLog('Request timeout - backend response too slow', 'error');
+                }
+            } finally {
+                toggleSendButton(false);
+                if (refs.userInput) {
+                    refs.userInput.focus();
+                }
+            }
+        }
+
+        function showQuickConfirm(promptText, callback) {
+            const container = document.createElement('div');
+            container.className = 'msg ai confirm-quick';
+            const p = document.createElement('div');
+            p.textContent = promptText;
+            const btnYes = document.createElement('button');
+            btnYes.className = 'btn small';
+            btnYes.textContent = 'Yes';
+            const btnNo = document.createElement('button');
+            btnNo.className = 'btn small ghost';
+            btnNo.textContent = 'No';
+            const actions = document.createElement('div');
+            actions.style.marginTop = '8px';
+            actions.appendChild(btnYes);
+            actions.appendChild(btnNo);
+            container.appendChild(p);
+            container.appendChild(actions);
+            refs.chatFeed.appendChild(container);
+            ensureChatScroll();
+            const cleanup = () => { try { container.remove(); } catch (e) { } };
+            btnYes.addEventListener('click', () => { cleanup(); callback(true); });
+            btnNo.addEventListener('click', () => { cleanup(); callback(false); });
+            // Fallback: auto-dismiss after 8s default to 'No'
+            setTimeout(() => { try { cleanup(); callback(false); } catch (e) { } }, 8000);
+        }
+
+        function attachVerificationControls(domElement, assistantResponseText, objects, source, imagePath) {
+            try {
+                const controls = document.createElement('div');
+                controls.className = 'viz-verification';
+                const btnYes = document.createElement('button');
+                btnYes.className = 'btn small';
+                btnYes.textContent = 'Correct';
+                const btnNo = document.createElement('button');
+                btnNo.className = 'btn small ghost';
+                btnNo.textContent = 'Incorrect';
+                controls.appendChild(btnYes);
+                controls.appendChild(btnNo);
+                domElement.appendChild(controls);
+                ensureChatScroll();
+
+                const sendFeedback = async (correct) => {
+                    try {
+                        await apiFetch('/api/vision/feedback', { method: 'POST', body: { imagePath, assistantResponse: assistantResponseText, objects, source, correct } });
+                        addLog('Feedback sent', 'info');
+                        controls.remove();
+                    } catch (e) {
+                        addLog('Feedback failed: ' + (e.message || e), 'warn');
+                    }
+                }
+
+                btnYes.addEventListener('click', () => sendFeedback(true));
+                btnNo.addEventListener('click', () => sendFeedback(false));
+                // Auto remove after 20s to avoid clutter
+                setTimeout(() => { try { controls.remove(); } catch (e) { } }, 20000);
+            } catch (e) { console.warn('attachVerificationControls failed', e && e.message); }
+        }
+
+        async function sendVoiceCommand(transcript) {
+            const cleanTranscript = (transcript || '').trim();
+            if (!cleanTranscript) return;
+
+            try {
+                const data = await apiFetch(API_ENDPOINTS.voice, {
+                    method: 'POST',
+                    body: { transcript: cleanTranscript }
+                });
+                const reply = data.message || data.response || 'Voice command processed.';
+                addMessage(reply, 'ai');
+                playTTS_Raw(reply);
+                addLog('Voice directive executed.');
+            } catch (error) {
+                addMessage(`Voice pipeline disruption: ${error.message}`, 'ai');
+                addLog(`Voice relay error: ${error.message}`, 'warn');
+            }
+        }
+
+        function resetVisualizer() {
+            if (state.visualizerFrame) {
+                cancelAnimationFrame(state.visualizerFrame);
+                state.visualizerFrame = null;
+            }
+            refs.visualizerBars.forEach((bar) => {
+                bar.style.height = '5px';
+            });
+        }
+
+        function animateVisualizer() {
+            if (!state.voiceActive) return;
+            refs.visualizerBars.forEach((bar) => {
+                const height = Math.random() * 30 + 5;
+                bar.style.height = `${height}px`;
+            });
+            state.visualizerFrame = requestAnimationFrame(animateVisualizer);
+        }
+
+        function setVoiceActive(active) {
+            state.voiceActive = active;
+            if (refs.voiceBtn) {
+                if (active) {
+                    refs.voiceBtn.style.background = 'var(--primary)';
+                    refs.voiceBtn.style.color = '#000';
+                } else {
+                    refs.voiceBtn.style.background = '';
+                    refs.voiceBtn.style.color = 'var(--primary)';
+                }
+            }
+            if (active) {
+                animateVisualizer();
+            } else {
+                resetVisualizer();
+            }
+        }
+
+        async function activateServerVoiceMode() {
+            if (state.voiceActive) return;
+            setVoiceActive(true);
+            addLog('Voice channel open (Offline Vosk Mode).');
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                const mediaRecorder = new MediaRecorder(stream);
+                const audioChunks = [];
+
+                mediaRecorder.ondataavailable = (event) => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = async () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const formData = new FormData();
+                    formData.append('audio', audioBlob, 'recording.wav');
+
+                    try {
+                        const data = await apiFetch('/api/voice/process', {
+                            method: 'POST',
+                            body: formData
+                        });
+
+                        if (data.success) {
+                            addMessage(data.transcript, 'user');
+                            sendVoiceCommand(data.transcript);
+                        } else {
+                            if (data.error === 'no_speech') {
+                                // Continue recording
+                            } else if (data.error === 'engine_loading' || data.error === 'engine_not_ready') {
+                                addLog('Voice Engine is warming up... please wait 10s.', 'warn');
+                            } else {
+                                addLog(`Voice processing error: ${data.error}`, 'error');
+                            }
+                        }
+                    } catch (e) {
+                        addLog(`Voice upload error: ${e.message}`, 'error');
+                    }
+
+                    // Continue if still active
+                    if (state.voiceActive) {
+                        startRecording();
+                    }
+                };
+
+                const startRecording = () => {
+                    audioChunks.length = 0;
+                    mediaRecorder.start();
+                    setTimeout(() => {
+                        if (mediaRecorder.state === 'recording') {
+                            mediaRecorder.stop();
+                        }
+                    }, 5000); // Record for 5 seconds
+                };
+
+                startRecording();
+
+            } catch (e) {
+                addLog(`Microphone access error: ${e.message}`, 'error');
+                addMessage(`Microphone access denied. Please allow microphone access.`, 'ai');
+                setVoiceActive(false);
+            }
+        }
+
+        function startVoiceCapture() {
+            // Check if we are online, but don't block if we are in Electron (might be local network)
+            // if (!navigator.onLine) { ... } 
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                addLog('Voice interface unsupported in this browser.', 'warn');
+                addMessage('Voice capture is unavailable in this environment.', 'ai');
+                return;
+            }
+
+            if (state.voiceActive && state.voiceRecognition) {
+                state.voiceRecognition.stop();
+                return;
+            }
+
+            try {
+                const recognition = new SpeechRecognition();
+                state.voiceRecognition = recognition;
+                recognition.lang = 'en-US';
+                recognition.interimResults = false;
+                recognition.maxAlternatives = 1;
+                // recognition.continuous = true; // Keep listening? Maybe not for now.
+
+                recognition.onstart = () => {
+                    setVoiceActive(true);
+                    addLog('Voice channel open.');
+                };
+
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    addMessage(transcript, 'user');
+                    sendVoiceCommand(transcript);
+                };
+
+                recognition.onerror = (event) => {
+                    let msg = `Voice capture error: ${event.error}`;
+
+                    if (event.error === 'network') {
+                        // Network error - likely offline or API key issue
+                        if (!state.voiceRetryCount) state.voiceRetryCount = 0;
+
+                        if (state.voiceRetryCount < 3) {
+                            state.voiceRetryCount++;
+                            console.warn(`[Voice] Network error, retrying (${state.voiceRetryCount}/3)...`);
+
+                            // Abort current instance to clean up
+                            try { recognition.abort(); } catch (e) { }
+                            setVoiceActive(false);
+
+                            // Retry by restarting the whole flow
+                            setTimeout(() => {
+                                startVoiceCapture();
+                            }, 2000);
+                            return;
+                        } else {
+                            msg = 'Voice network error. Switching to Local Server Mode...';
+                            addLog(msg, 'warn');
+                            // Switch to server-side listening
+                            setTimeout(() => {
+                                state.voiceRetryCount = 0;
+                                activateServerVoiceMode();
+                            }, 1000);
+                            return;
+                        }
+                    } else if (event.error === 'not-allowed') {
+                        msg = 'Microphone permission denied.';
+                    } else if (event.error === 'no-speech' || event.error === 'aborted') {
+                        return; // Ignore benign errors
+                    }
+
+                    addLog(msg, 'warn');
+                    setVoiceActive(false);
+                    state.voiceRetryCount = 0;
+                };
+
+                recognition.onend = () => {
+                    setVoiceActive(false);
+                    state.voiceRecognition = null;
+                };
+
+                recognition.start();
+            } catch (e) {
+                addLog(`Voice init failed: ${e.message}`, 'error');
+            }
+        }
+
+        function setCameraStatus(statusText) {
+            if (!refs.camStatus) return;
+            const normalized = (statusText || 'standby').toString().trim();
+            refs.camStatus.textContent = normalized.toUpperCase();
+
+            if (/error|fail|fault/i.test(normalized)) {
+                refs.camStatus.style.color = 'var(--alert)';
+            } else if (/active|ready|online|capture/i.test(normalized)) {
+                refs.camStatus.style.color = 'var(--primary)';
+            } else {
+                refs.camStatus.style.color = 'var(--secondary)';
+            }
+        }
+
+        function setCameraScreenMessage(primary, secondary) {
+            if (!refs.camScreen) return;
+            refs.camScreen.innerHTML = '';
+            const mainLine = document.createElement('span');
+            mainLine.textContent = primary || '[ OPTICS OFFLINE ]';
+            refs.camScreen.appendChild(mainLine);
+
+            if (secondary) {
+                const subLine = document.createElement('span');
+                subLine.style.marginTop = '6px';
+                subLine.textContent = secondary;
+                refs.camScreen.appendChild(subLine);
+            }
+        }
+
+        function setCameraFrameImage(src, caption) {
+            if (!refs.camScreen) return;
+            if (!src) {
+                setCameraScreenMessage(caption);
+                return;
+            }
+            refs.camScreen.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = caption || 'Camera frame';
+            refs.camScreen.appendChild(img);
+        }
+
+        function setCameraPreviewContent(content) {
+            if (!refs.camPreview) return;
+            refs.camPreview.innerHTML = '';
+
+            const entries = Array.isArray(content) ? content : [content];
+            if (!entries.length) {
+                refs.camPreview.textContent = 'No captures yet.';
+                return;
+            }
+
+            entries.forEach((entry) => {
+                if (entry == null) {
+                    return;
+                }
+                if (typeof entry === 'string') {
+                    const span = document.createElement('span');
+                    span.textContent = entry;
+                    refs.camPreview.appendChild(span);
+                } else if (typeof entry === 'object') {
+                    const span = document.createElement('span');
+                    if (entry.label) {
+                        const strong = document.createElement('strong');
+                        strong.textContent = entry.label;
+                        span.appendChild(strong);
+                        span.appendChild(document.createTextNode(' '));
+                    }
+                    span.appendChild(document.createTextNode(entry.value ? String(entry.value) : ''));
+                    refs.camPreview.appendChild(span);
+                }
+            });
+
+            if (!refs.camPreview.children.length) {
+                refs.camPreview.textContent = 'No captures yet.';
+            }
+        }
+
+        function updateCameraControls() {
+            if (refs.cameraInitBtn) refs.cameraInitBtn.disabled = state.cameraActive;
+            if (refs.cameraCaptureBtn) refs.cameraCaptureBtn.disabled = !state.cameraActive;
+            if (refs.cameraStopBtn) refs.cameraStopBtn.disabled = !state.cameraActive;
+        }
+
+        async function handleCameraInit() {
+            if (refs.cameraInitBtn) refs.cameraInitBtn.disabled = true;
+            try {
+                // 1. Initialize Backend State
+                const data = await apiFetch(API_ENDPOINTS.cameraInit, { method: 'POST' });
+
+                // 2. Initialize Frontend Camera Stream
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+
+                // Create or reuse video element
+                let videoEl = document.getElementById('camVideoFeed');
+                if (!videoEl) {
+                    videoEl = document.createElement('video');
+                    videoEl.id = 'camVideoFeed';
+                    videoEl.autoplay = true;
+                    videoEl.playsInline = true; // Important for some environments
+                    videoEl.style.width = '100%';
+                    videoEl.style.height = '100%';
+                    videoEl.style.objectFit = 'cover';
+                    videoEl.style.position = 'absolute';
+                    videoEl.style.top = '0';
+                    videoEl.style.left = '0';
+                    videoEl.style.zIndex = '0'; // Ensure it is behind the overlay but visible
+
+                    // Insert into camContainer
+                    const container = document.getElementById('camContainer');
+                    if (container) {
+                        // Clear existing content except overlays if needed, or just prepend
+                        // But we want to keep overlays.
+                        // Let's make sure camContainer has relative positioning
+                        container.style.position = 'relative';
+                        container.insertBefore(videoEl, container.firstChild);
+                    }
+                }
+                videoEl.srcObject = stream;
+                videoEl.style.display = 'block';
+                videoEl.addEventListener('loadedmetadata', () => {
+                    try { videoEl.play(); } catch (e) { }
+                });
+
+                state.cameraActive = true;
+                state.cameraStream = stream;
+
+                setCameraStatus(data.status || 'READY');
+
+                // Force hide the offline screen
+                if (refs.camScreen) {
+                    refs.camScreen.style.display = 'none';
+                }
+
+                addLog('Camera subsystem initialized.');
+
+                startFrameTransmission(videoEl);
+
+            } catch (error) {
+                setCameraStatus('ERROR');
+                setCameraScreenMessage('INIT FAILURE', error.message);
+                addLog(`Camera init failed: [${error.name}] ${error.message}`, 'error');
+                console.error('Camera initialization error:', error);
+            } finally {
+                updateCameraControls();
+            }
+        }
+
+        function startFrameTransmission(videoEl) {
+            if (state.frameInterval) clearInterval(state.frameInterval);
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            let failureCount = 0;
+            state.frameInterval = setInterval(async () => {
+                try {
+                    if (!state.cameraActive || !videoEl.videoWidth) return;
+
+                    canvas.width = videoEl.videoWidth;
+                    canvas.height = videoEl.videoHeight;
+                    ctx.drawImage(videoEl, 0, 0);
+
+                    const base64 = canvas.toDataURL('image/jpeg', 0.55); // Low quality for speed
+
+                    const metadata = {
+                        width: canvas.width,
+                        height: canvas.height,
+                        ts: Date.now()
+                    };
+                    const payload = { frameData: base64, metadata };
+
+                    fetch('http://localhost:8002/upload_frame', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    })
+                        .then((resp) => {
+                            failureCount = 0;
+                            addLog(`Frame transmitted`, 'info');
+                        })
+                        .catch((err) => {
+                            failureCount += 1;
+                            // addLog(`Frame POST failure: ${err.message}`, 'warn');
+                            if (failureCount > 5) {
+                                addLog('Exceeded frame retransmit failure threshold; pausing', 'warn');
+                                clearInterval(state.frameInterval);
+                                state.frameInterval = null;
+                            }
+                        });
+
+                } catch (e) {
+                    addLog(`Frame Capture Exception: ${e.message}`, 'warn');
+                }
+            }, 2000); // Send 1 frame per 2 seconds (Optimized for Vision)
+        }
+
+        async function handleCameraStatus() {
+            try {
+                const data = await apiFetch(API_ENDPOINTS.cameraStatus);
+                state.cameraActive = !!data.active;
+                setCameraStatus(data.active ? 'ACTIVE' : 'STANDBY');
+
+                const frameCount = Number(data.frameCount || 0);
+                const latest = data.latestFrame ? new Date(data.latestFrame).toLocaleTimeString('en-US', { hour12: false }) : 'N/A';
+
+                if (data.imageData) {
+                    setCameraFrameImage(`data:image/png;base64,${data.imageData}`, 'Latest capture');
+                } else {
+                    setCameraScreenMessage(data.active ? 'OPTICS ACTIVE' : 'OPTICS STANDBY', `Frames: ${frameCount}`);
+                }
+
+                setCameraPreviewContent([
+                    { label: 'Frames:', value: String(frameCount) },
+                    { label: 'Latest:', value: latest }
+                ]);
+            } catch (error) {
+                addLog(`Camera status error: ${error.message}`, 'warn');
+                setCameraStatus('ERROR');
+                setCameraScreenMessage('STATUS UNAVAILABLE', error.message);
+            } finally {
+                updateCameraControls();
+            }
+        }
+
+        async function handleCameraCapture() {
+            if (refs.cameraCaptureBtn) refs.cameraCaptureBtn.disabled = true;
+            try {
+                const filename = `frame_${Date.now()}.png`;
+                const data = await apiFetch(API_ENDPOINTS.cameraCapture, {
+                    method: 'POST',
+                    body: { filename }
+                });
+
+                state.cameraActive = true;
+                setCameraStatus('CAPTURED');
+
+                if (data.imageData) {
+                    setCameraFrameImage(`data:image/png;base64,${data.imageData}`, 'Captured frame');
+                } else {
+                    setCameraScreenMessage('FRAME CAPTURED', data.filepath || 'Stored in buffer');
+                }
+
+                state.lastCapture = data.filepath || null;
+                setCameraPreviewContent([
+                    { label: 'Frame stored:', value: data.filepath || 'in-memory' },
+                    { label: 'Timestamp:', value: new Date().toLocaleTimeString('en-US', { hour12: false }) }
+                ]);
+                addLog('Camera frame captured.');
+            } catch (error) {
+                setCameraStatus('ERROR');
+                setCameraScreenMessage('CAPTURE FAILED', error.message);
+                addLog(`Camera capture error: ${error.message}`, 'error');
+            } finally {
+                updateCameraControls();
+            }
+        }
+
+        async function handleCameraStop() {
+            if (refs.cameraStopBtn) refs.cameraStopBtn.disabled = true;
+            try {
+                await apiFetch(API_ENDPOINTS.cameraStop, { method: 'POST' });
+
+                // Stop frontend stream
+                if (state.cameraStream) {
+                    state.cameraStream.getTracks().forEach(track => track.stop());
+                    state.cameraStream = null;
+                }
+                if (state.frameInterval) {
+                    clearInterval(state.frameInterval);
+                    state.frameInterval = null;
+                }
+
+                const videoEl = document.getElementById('camVideoFeed');
+                if (videoEl) videoEl.remove();
+
+                if (refs.camScreen) refs.camScreen.style.display = 'flex'; // Show offline screen
+
+                state.cameraActive = false;
+                setCameraStatus('STANDBY');
+                setCameraScreenMessage('[ OPTICS OFFLINE ]', 'Feed terminated');
+                setCameraPreviewContent('Camera feed terminated.');
+                addLog('Camera subsystem halted.', 'warn');
+            } catch (error) {
+                setCameraStatus('ERROR');
+                addLog(`Camera stop error: ${error.message}`, 'error');
+            } finally {
+                updateCameraControls();
+            }
+        }
+
+        function initEvents() {
+            if (refs.sendBtn && refs.userInput) {
+                refs.sendBtn.addEventListener('click', async () => {
+                    const value = refs.userInput.value;
+                    refs.userInput.value = '';
+                    await sendChat(value);
+                });
+            }
+
+            if (refs.userInput) {
+                refs.userInput.addEventListener('keydown', async (event) => {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        const value = refs.userInput.value;
+                        refs.userInput.value = '';
+                        await sendChat(value);
+                    }
+                });
+            }
+
+            refs.voiceBtn?.addEventListener('click', activateServerVoiceMode);
+            refs.cameraInitBtn?.addEventListener('click', handleCameraInit);
+            refs.cameraStatusBtn?.addEventListener('click', handleCameraStatus);
+            refs.cameraCaptureBtn?.addEventListener('click', handleCameraCapture);
+            refs.cameraStopBtn?.addEventListener('click', handleCameraStop);
+            refs.cameraStopBtn?.addEventListener('click', handleCameraStop);
+        }
+
+        // BOOT SEQUENCE
+        async function runBootSequence() {
+            const log = document.getElementById('boot-log');
+            const bar = document.getElementById('bootBar');
+            const status = document.getElementById('bootStatus');
+            const overlay = document.getElementById('boot-overlay');
+            const mainUI = document.getElementById('mainInterface');
+
+            const logs = [
+                "LOADING CORE MODULES...",
+                "CONNECTING TO NEURAL NET...",
+                "VERIFYING SECURITY TOKENS...",
+                "MOUNTING FILE SYSTEMS...",
+                "ESTABLISHING SECURE LINK..."
+            ];
+
+            // Fake loading simulation
+            for (let i = 0; i < logs.length; i++) {
+                const div = document.createElement('div');
+                div.textContent = "> " + logs[i];
+                log.appendChild(div);
+                bar.style.width = ((i + 1) * 15) + "%";
+                await new Promise(r => setTimeout(r, 400));
+            }
+
+            // Real Backend Check
+            status.textContent = "WAITING FOR AI BACKEND...";
+            let backendReady = false;
+            let checks = 0;
+
+            while (!backendReady && checks < 30) { // Max 30s wait
+                try {
+                    try {
+                        // Use apiFetch to handle URL building correctly
+                        const data = await apiFetch(API_ENDPOINTS.systemStatus).catch(() => null);
+
+                        if (data && data.success) {
+                            backendReady = true;
+                        } else {
+                            // Fallback check on port 5555 directly
+                            const statusFunc = await fetch('http://localhost:5555/status').catch(() => null);
+                            if (statusFunc && statusFunc.ok) backendReady = true;
+                        }
+                    } catch (e) { }
+
+                    if (data && data.ready) {
+                        backendReady = true;
+                    }
+                } catch (e) { }
+
+                if (!backendReady) {
+                    checks++;
+                    bar.style.width = (75 + checks) + "%"; // Fake progress while waiting
+                    await new Promise(r => setTimeout(r, 1000));
+                }
+            }
+
+            if (!backendReady) {
+                const div = document.createElement('div');
+                div.textContent = "> WARNING: BACKEND OFFLINE. STARTING IN OFFLINE MODE.";
+                div.style.color = "red";
+                log.appendChild(div);
+                await new Promise(r => setTimeout(r, 1000));
+            }
+
+            bar.style.width = "100%";
+            status.textContent = "SYSTEM READY";
+            await new Promise(r => setTimeout(r, 500));
+
+            // Transition
+            overlay.style.transition = "opacity 0.8s";
+            overlay.style.opacity = "0";
+            setTimeout(() => {
+                overlay.style.display = "none";
+                mainUI.style.opacity = "1";
+            }, 800);
+
+            // Start regular polling
+            startPolling();
+            initEvents(); // Initialize UI event listeners after boot
+            setCameraPreviewContent('No captures yet.'); // Set initial camera preview content
+            addLog('All primary systems linked.'); // Final log message
+
+            // Auto-Initialize Systems
+            handleCameraInit();
+            activateServerVoiceMode();
+        }
+
+        function startPolling() {
+            setInterval(updateClock, 1000);
+            if (state.metricsInterval) clearInterval(state.metricsInterval);
+            state.metricsInterval = setInterval(fetchMetrics, 2000);
+            setInterval(fetchHealth, 10000); // Heartbeat
+            setInterval(fetchOllamaStatus, 30000);
+
+            // Initialize Camera if needed
+            // handleCameraStatus(); // This will be called by handleCameraInit or separately if needed
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            runBootSequence();
+            // Event Listeners...
+            const sendBtn = document.getElementById('sendBtn');
+            // ... re-attach existing listeners since ID might have changed if any
+        });
+        window.addEventListener('beforeunload', () => {
+            if (state.metricsInterval) clearInterval(state.metricsInterval);
+            if (state.voiceRecognition) state.voiceRecognition.stop();
+            resetVisualizer();
+        });
+
+        updateCameraControls();
+
+        // The initDashboard function is now largely replaced by runBootSequence and startPolling.
+        // Its contents have been distributed.
+        async function initDashboard() {
+            // This function is no longer called directly on DOMContentLoaded.
+            // Its responsibilities are now handled by runBootSequence and startPolling.
+            // Keeping it here for reference or if parts are still needed elsewhere.
+            addLog('Boot sequence engaged.');
+            addLog('Awaiting system handshake...');
+
+            updateClock();
+            setInterval(updateClock, 1000);
+
+            initEvents();
+            setCameraPreviewContent('No captures yet.');
+
+            await fetchHealth();
+            await fetchOllamaStatus();
+            await fetchMetrics();
+            await handleCameraStatus();
+
+            // Auto-Initialize Systems
+            handleCameraInit();
+            activateServerVoiceMode();
+
+            state.metricsInterval = setInterval(fetchMetrics, 8000);
+
+            addLog('All primary systems linked.');
+        }
+
+        // --- Live Voice Core (Full Duplex) ---
+        class LiveVoiceManager {
+            constructor() {
+                this.ws = null;
+                this.audioContext = null;
+                this.processor = null;
+                this.source = null;
+                this.isRecording = false;
+                this.canvas = document.getElementById('waveformCanvas');
+                this.canvasCtx = this.canvas ? this.canvas.getContext('2d') : null;
+                this.btn = document.getElementById('liveVoiceBtn');
+
+                if (this.btn) {
+                    this.btn.addEventListener('click', () => this.toggle());
+                }
+            }
+
+            toggle() {
+                if (this.isRecording) {
+                    this.stop();
+                } else {
+                    this.start();
+                }
+            }
+
+            async start() {
+                try {
+                    addLog('Initializing Live Voice Core...', 'info');
+                    this.ws = new WebSocket(`ws://localhost:${DEFAULT_BACKEND_PORT}/ws/audio`);
+                    this.ws.binaryType = 'arraybuffer';
+
+                    this.ws.onopen = () => {
+                        addLog('Voice Core: Connected', 'success');
+                        this.startAudioCapture();
+                        if (this.btn) this.btn.style.background = 'var(--primary)';
+                        if (this.canvas) this.canvas.style.display = 'block';
+                        if (this.btn) this.btn.style.background = 'var(--primary)';
+                        if (this.canvas) this.canvas.style.display = 'block';
+                        // document.getElementById('visualizer').style.display = 'none'; // Removed (Legacy)
+
+                        // Trigger Jarvis Greeting
+                        setTimeout(() => {
+                            if (this.ws.readyState === WebSocket.OPEN) {
+                                this.ws.send(JSON.stringify({ type: "event", action: "greet" }));
+                            }
+                        }, 500); // Small delay to ensure audio context is ready
+                    };
+
+                    this.ws.onmessage = async (event) => {
+                        if (typeof event.data === 'string') {
+                            const msg = JSON.parse(event.data);
+                            if (msg.type === 'status') {
+                                // Update UI based on status (listening/thinking)
+                                if (msg.state === 'thinking') {
+                                    addLog('AI is thinking...', 'info');
+                                }
+                            }
+                        } else {
+                            // Received Audio Blob (ArrayBuffer)
+                            this.playAudio(event.data);
+                        }
+                    };
+
+                    this.ws.onclose = () => {
+                        addLog('Voice Core: Disconnected', 'warn');
+                        this.stop();
+                    };
+
+                    this.isRecording = true;
+                } catch (e) {
+                    addLog(`Voice Core Error: ${e.message}`, 'error');
+                }
+            }
+
+            stop() {
+                if (this.ws) {
+                    this.ws.close();
+                    this.ws = null;
+                }
+                if (this.audioContext) {
+                    this.audioContext.close();
+                    this.audioContext = null;
+                }
+                this.isRecording = false;
+                if (this.btn) this.btn.style.background = 'var(--secondary)';
+                if (this.canvas) this.canvas.style.display = 'none';
+                if (this.canvas) this.canvas.style.display = 'none';
+                // document.getElementById('visualizer').style.display = 'flex'; // Removed (Legacy)
+                addLog('Live Voice Core Deactivated.');
+            }
+
+            async startAudioCapture() {
+                try {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
+                    await this.audioContext.audioWorklet.addModule('js/audio-processor.js');
+
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    const source = this.audioContext.createMediaStreamSource(stream);
+                    const workletNode = new AudioWorkletNode(this.audioContext, 'audio-processor');
+
+                    workletNode.port.onmessage = (event) => {
+                        if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+                            this.ws.send(event.data);
+                            // Visualize standard float data if available or convert back
+                            // The processor sends int16 buffer. Visualizer expects float?
+                            // this.drawWaveform takes float usually.
+                            // Let's create a float view for visualizer or adapt visualizer.
+                            // Actually, let's just use the int data and scale it down for visualizer.
+                            const int16 = new Int16Array(event.data);
+                            const float32 = new Float32Array(int16.length);
+                            for (let i = 0; i < int16.length; i++) float32[i] = int16[i] / 32768.0;
+                            this.drawWaveform(float32);
+                        }
+                    };
+
+                    source.connect(workletNode);
+                    workletNode.connect(this.audioContext.destination);
+                    addLog('Microphone: Active (AudioWorklet)', 'success');
+                } catch (e) {
+                    addLog(`Mic Error: ${e.message}`, 'error');
+                    this.stop();
+                }
+            }
+
+            playAudio(arrayBuffer) {
+                // Decode and play
+                // Since we receive raw WAV bytes (header included from backend), we can use decodeAudioData
+                // Or just create a blob URL if it's a full WAV file.
+                // The backend sends WAV bytes.
+                const blob = new Blob([arrayBuffer], { type: 'audio/wav' });
+                const url = URL.createObjectURL(blob);
+                const audio = new Audio(url);
+                audio.play();
+            }
+
+            drawWaveform(data) {
+                if (!this.canvasCtx) return;
+                const width = this.canvas.width;
+                const height = this.canvas.height;
+
+                this.canvasCtx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+                this.canvasCtx.fillRect(0, 0, width, height);
+
+                this.canvasCtx.lineWidth = 2;
+                this.canvasCtx.strokeStyle = '#00ffcc';
+                this.canvasCtx.beginPath();
+
+                const sliceWidth = width * 1.0 / data.length;
+                let x = 0;
+
+                for (let i = 0; i < data.length; i++) {
+                    const v = data[i] * (height / 2);
+                    const y = (height / 2) + v;
+
+                    if (i === 0) this.canvasCtx.moveTo(x, y);
+                    else this.canvasCtx.lineTo(x, y);
+
+                    x += sliceWidth;
+                }
+
+                this.canvasCtx.lineTo(width, height / 2);
+                this.canvasCtx.stroke();
+            }
+        }
+
+        // Initialize Live Voice
+        const liveVoice = new LiveVoiceManager();
+
+        // initDashboard();
+    </script>
+</body>
+
+</html>

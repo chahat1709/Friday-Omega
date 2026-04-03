@@ -1,0 +1,66 @@
+{
+    "system": {
+        "log_level": "INFO",
+        "log_file": "friday.log",
+        "performance_mode": "balanced"
+    },
+    "networking": {
+        "scan_timeout_seconds": 300,
+        "port_scan_range": "common",
+        "network_scan_threads": 50,
+        "enable_full_subnet_scan": true
+    },
+    "mobile": {
+        "adb_path": "adb",
+        "default_screen_width": 1080,
+        "default_screen_height": 1920,
+        "command_timeout_seconds": 10
+    },
+    "pentest": {
+        "nmap_timeout": 300,
+        "enable_aggressive_scan": false,
+        "cve_database_path": "./data/cve_database.db",
+        "auto_update_cve": true
+    },
+    "tools": {
+        "metasploit_rpc": {
+            "host": "127.0.0.1",
+            "port": 55553,
+            "password": "msf"
+        },
+        "wordlists": {
+            "directories": "/usr/share/wordlists/dirb/common.txt",
+            "passwords": "/usr/share/wordlists/rockyou.txt",
+            "usernames": "/usr/share/wordlists/seclists/Usernames/top-usernames-shortlist.txt"
+        }
+    },
+    "iot": {
+        "enable_wake_on_lan": false,
+        "enable_arp_scan": true,
+        "smart_home_integrations": {
+            "tuya": {
+                "enabled": false,
+                "api_key": "",
+                "api_secret": ""
+            },
+            "kasa": {
+                "enabled": false
+            },
+            "mqtt": {
+                "enabled": false,
+                "broker": "localhost",
+                "port": 1883
+            }
+        }
+    },
+    "security": {
+        "require_approval_for_exploits": true,
+        "enable_audit_logging": true,
+        "authorization_first": true,
+        "allowed_targets": [],
+        "forbidden_targets": [
+            "8.8.8.8",
+            "1.1.1.1"
+        ]
+    }
+}

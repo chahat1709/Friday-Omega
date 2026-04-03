@@ -1,0 +1,32 @@
+# Secrets - CRITICAL: Never commit API keys
+.env
+.env.local
+.env.template
+
+# Vector DB (too large for GitHub)
+friday_memory_vdb/
+*.gguf
+models/
+
+
+# Debug screenshots
+*.png
+
+# Ignore runtime artifacts
+*.db
+*.db-shm
+*.db-wal
+*.mp3
+*.wav
+*.pyc
+__pycache__/
+api_response.json
+test_tts*.mp3
+# Ignore local machine specific files and caches
+node_modules/
+dist/
+build/
+logs/
+*.log
+storage/frames/*.jpg
+storage/frames/*.png

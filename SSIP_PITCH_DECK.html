@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FRIDAY Omega — SSIP Pitch Deck</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4 landscape; margin: 0; }
+  
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background: #f4f4f4;
+    color: #222;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .slide {
+    width: 960px;
+    height: 540px;
+    margin: 20px auto;
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    padding: 48px 56px;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+
+  @media print {
+    body { background: white; }
+    .slide { box-shadow: none; margin: 0 auto; width: 100%; height: 100vh; }
+  }
+
+  /* Subtle accent bar on left side */
+  .slide::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 6px;
+    background: #2563eb;
+  }
+
+  .slide.orange::before { background: #ea580c; }
+  .slide.green::before { background: #16a34a; }
+  .slide.purple::before { background: #7c3aed; }
+  .slide.red::before { background: #dc2626; }
+
+  .page-num {
+    position: absolute;
+    bottom: 20px;
+    right: 32px;
+    font-size: 11px;
+    color: #999;
+  }
+
+  .footer-brand {
+    position: absolute;
+    bottom: 20px;
+    left: 32px;
+    font-size: 10px;
+    color: #bbb;
+    letter-spacing: 0.5px;
+  }
+
+  h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 18px;
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #2563eb;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  p {
+    font-size: 14px;
+    line-height: 1.65;
+    color: #444;
+  }
+
+  .subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 24px;
+    font-weight: 300;
+  }
+
+  .label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #2563eb;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+  }
+
+  /* Data cards */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 16px 0;
+  }
+
+  .card {
+    background: #f8f9fb;
+    border: 1px solid #e8e8ec;
+    border-radius: 8px;
+    padding: 16px 14px;
+    text-align: center;
+  }
+
+  .card .num {
+    font-family: 'Poppins', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .card .num.red { color: #dc2626; }
+  .card .num.blue { color: #2563eb; }
+  .card .num.green { color: #16a34a; }
+  .card .num.orange { color: #ea580c; }
+
+  .card .desc {
+    font-size: 11px;
+    color: #777;
+    line-height: 1.4;
+  }
+
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    margin: 12px 0;
+  }
+
+  table th {
+    text-align: left;
+    padding: 8px 10px;
+    background: #f1f5f9;
+    font-weight: 600;
+    font-size: 11px;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #e2e8f0;
+  }
+
+  table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #eee;
+    color: #444;
+  }
+
+  table tr.highlight {
+    background: #eff6ff;
+    font-weight: 600;
+  }
+
+  table tr.highlight td { color: #1e40af; border-bottom: 2px solid #2563eb; }
+
+  .yes { color: #16a34a; font-weight: 600; }
+  .no { color: #dc2626; }
+  .maybe { color: #ea580c; }
+
+  /* Two columns */
+  .cols { display: flex; gap: 32px; }
+  .col { flex: 1; }
+
+  /* Simple list */
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  ul li {
+    font-size: 13.5px;
+    padding: 5px 0;
+    padding-left: 18px;
+    position: relative;
+    color: #444;
+    line-height: 1.55;
+  }
+
+  ul li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #2563eb;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  ul li strong { color: #222; }
+
+  /* Budget bars */
+  .budget-row {
+    display: flex;
+    align-items: center;
+    margin: 7px 0;
+    font-size: 13px;
+  }
+
+  .budget-label { width: 180px; font-weight: 500; color: #444; font-size: 12.5px; }
+  
+  .budget-bar-wrap {
+    flex: 1;
+    height: 22px;
+    background: #f1f5f9;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0 10px;
+  }
+
+  .budget-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+  }
+
+  .budget-amt { width: 65px; text-align: right; font-weight: 500; color: #666; font-size: 12.5px; }
+
+  /* Arch layers */
+  .layer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    margin: 4px 0;
+    background: #f8f9fb;
+    border-radius: 6px;
+    border-left: 3px solid #2563eb;
+  }
+
+  .layer.purple { border-left-color: #7c3aed; }
+  .layer.green { border-left-color: #16a34a; }
+  .layer.orange { border-left-color: #ea580c; }
+  .layer.red { border-left-color: #dc2626; }
+
+  .layer-name { font-weight: 600; font-size: 13px; color: #222; min-width: 160px; }
+  .layer-desc { font-size: 12px; color: #666; }
+
+  /* Innovation boxes */
+  .inno-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+  
+  .inno-box {
+    padding: 14px;
+    border: 1px solid #e8e8ec;
+    border-radius: 8px;
+    background: #fafbfc;
+  }
+
+  .inno-box h4 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 5px;
+  }
+
+  .inno-box p { font-size: 11.5px; color: #666; line-height: 1.5; }
+
+  /* Revenue */
+  .rev-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .rev-name { font-weight: 500; font-size: 14px; }
+  .rev-sub { font-size: 11px; color: #888; }
+  .rev-price { font-family: 'Poppins'; font-weight: 700; font-size: 16px; color: #2563eb; }
+
+  .source { font-size: 9.5px; color: #aaa; margin-top: 8px; }
+
+  /* Title slide special */
+  .title-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+  }
+
+  .title-center h1 { font-size: 40px; margin-bottom: 12px; }
+  .title-center .subtitle { font-size: 18px; margin-bottom: 32px; color: #555; }
+
+  .meta-row {
+    display: flex;
+    gap: 40px;
+    margin-top: 12px;
+  }
+
+  .meta-item { text-align: center; }
+  .meta-label { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: 1px; }
+  .meta-value { font-size: 14px; font-weight: 600; color: #333; margin-top: 2px; }
+
+  .tag-line {
+    display: inline-block;
+    padding: 4px 14px;
+    border: 1.5px solid #2563eb;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #2563eb;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+  }
+
+  .highlight-box {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-size: 13px;
+    color: #1e40af;
+    line-height: 1.6;
+  }
+
+  .closing-box {
+    background: #f8f9fb;
+    border: 2px solid #2563eb;
+    border-radius: 12px;
+    padding: 28px;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .big-num {
+    font-family: 'Poppins';
+    font-size: 36px;
+    font-weight: 700;
+    color: #2563eb;
+  }
+
+  .margin-box {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .margin-box .num {
+    font-family: 'Poppins';
+    font-size: 32px;
+    font-weight: 700;
+    color: #16a34a;
+  }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide">
+  <div class="title-center">
+    <div class="tag-line">SSIP 2.0 — Revised Submission</div>
+    <h1>FRIDAY Omega</h1>
+    <p class="subtitle">Autonomous Offline AI Cybersecurity for Businesses & National Defense</p>
+    <div class="meta-row">
+      <div class="meta-item">
+        <div class="meta-label">Applicant</div>
+        <div class="meta-value">Chahat Jain</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">University</div>
+        <div class="meta-value">GTU</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Date</div>
+        <div class="meta-value">March 2026</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Stage</div>
+        <div class="meta-value">Design Stage</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-num">1 / 10</div>
+</div>
+
+<!-- SLIDE 2: PROBLEM -->
+<div class="slide red">
+  <div class="label">The Problem</div>
+  <h2>India's Cybersecurity Crisis — By the Numbers</h2>
+  
+  <div class="cards">
+    <div class="card">
+      <div class="num red">1.5M</div>
+      <div class="desc">Cybersecurity professionals shortage in India</div>
+    </div>
+    <div class="card">
+      <div class="num red">74%</div>
+      <div class="desc">Indian SMEs attacked in the past year</div>
+    </div>
+    <div class="card">
+      <div class="num red">13%</div>
+      <div class="desc">SMEs with any formal security policy</div>
+    </div>
+    <div class="card">
+      <div class="num orange">92%</div>
+      <div class="desc">Indian orgs experienced a breach in 2024</div>
+    </div>
+    <div class="card">
+      <div class="num red">60%</div>
+      <div class="desc">Breached SMEs close within 6 months</div>
+    </div>
+    <div class="card">
+      <div class="num orange">1.59M</div>
+      <div class="desc">Cyber incidents CERT-In tracked in 2023 (4× since 2019)</div>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <strong>63 million Indian SMEs</strong> are under-protected. They can't afford dedicated security teams, and there aren't enough professionals to hire even if they could.
+  </div>
+
+  <p class="source">Sources: Fortinet 2025, Cisco Readiness Index, CERT-In, PrimeInfoServ, Express Computer</p>
+  <div class="footer-brand">FRIDAY Omega — SSIP 2.0</div>
+  <div class="page-num">2 / 10</div>
+</div>
+
+<!-- SLIDE 3: WHY TOOLS FAIL -->
+<div class="slide orange">
+  <div class="label">Market Gap</div>
+  <h2>Why Existing Tools Don't Solve This</h2>
+  
+  <div class="cols">
+    <div class="col">
+      <ul>
+        <li><strong>Too expensive</strong> — Enterprise tools are priced for large corporations. SMEs can't afford them.</li>
+        <li><strong>Cloud-dependent</strong> — Every AI pentesting tool (PentestGPT, HackerGPT) needs internet. Useless for air-gapped govt networks.</li>
+        <li><strong>Expert-only</strong> — Nmap, Metasploit, SQLMap need years of CLI training. SME staff can't use them.</li>
+      </ul>
+    </div>
+    <div class="col">
+      <ul>
+        <li><strong>Software-only</strong> — No tool coordinates digital scanning with physical hardware hacking (WiFi, RFID, BLE).</li>
+        <li><strong>Fragmented</strong> — 20+ separate tools with no intelligent coordination. Users spend hours manually chaining results.</li>
+        <li><strong>Single-tool execution</strong> — Current AI tools run one tool at a time. A real audit needs 10-20 tools chained.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="background: #fff7ed; border-color: #fed7aa; color: #9a3412;">
+    <strong>The gap:</strong> No tool exists that is offline + autonomous + hardware-integrated + affordable. That's what we're building.
+  </div>
+
+  <div class="footer-brand">FRIDAY Omega — SSIP 2.0</div>
+  <div class="page-num">3 / 10</div>
+</div>
+
+<!-- SLIDE 4: SOLUTION -->
+<div class="slide">
+  <div class="label">Our Solution</div>
+  <h2>FRIDAY Omega — AI That Thinks, Acts, and Adapts</h2>
+  <p style="margin-bottom: 14px; font-size: 13px; color: #666;">An AI-powered portable cybersecurity system that autonomously orchestrates 600+ security tools + hardware via voice commands — designed for defense-grade offline operations.</p>
+
+  <div class="layer">
+    <span style="font-size: 18px;">🎙</span>
+    <span class="layer-name">Voice Interface</span>
+    <span class="layer-desc">Speak naturally: "Audit my office network" — no CLI knowledge needed</span>
+  </div>
+  <div class="layer purple">
+    <span style="font-size: 18px;">🧠</span>
+    <span class="layer-name">Local AI Brain (7B Model)</span>
+    <span class="layer-desc">Qwen2.5-Coder runs locally via Ollama — no internet, no API keys, no data leaks</span>
+  </div>
+  <div class="layer green">
+    <span style="font-size: 18px;">🔄</span>
+    <span class="layer-name">ReAct Decision Loop</span>
+    <span class="layer-desc">Think → Pick Tool → Execute → Analyze Results → Decide Next → Repeat automatically</span>
+  </div>
+  <div class="layer">
+    <span style="font-size: 18px;">⚡</span>
+    <span class="layer-name">Universal Tool Executor</span>
+    <span class="layer-desc">Auto-discovers ALL 600+ Kali/BlackArch tools at boot — any new tool works instantly</span>
+  </div>
+  <div class="layer red">
+    <span style="font-size: 18px;">🔧</span>
+    <span class="layer-name">Hardware Bridge</span>
+    <span class="layer-desc">Flipper Zero (RFID/NFC), HackRF (radio), WiFi (monitor mode), BLE scanning</span>
+  </div>
+  <div class="layer orange">
+    <span style="font-size: 18px;">🛡</span>
+    <span class="layer-name">Anonymity Layer</span>
+    <span class="layer-desc">All operations routed through Tor + Proxychains + MAC spoofing</span>
+  </div>
+
+  <div class="footer-brand">FRIDAY Omega — SSIP 2.0</div>
+  <div class="page-num">4 / 10</div>
+</div>
+
+<!-- SLIDE 5: INNOVATION -->
+<div class="slide purple">
+  <div class="label">Innovation</div>
+  <h2>What Makes FRIDAY Unique — 4 Industry Firsts</h2>
+
+  <div class="inno-grid">
+    <div class="inno-box">
+      <h4>1. First Offline Autonomous Pentest AI</h4>
+      <p>Every competitor (PentestGPT, HackerGPT, Pentera) requires cloud/internet. FRIDAY runs a local 7B AI on a portable mini-PC. No internet needed. No data ever leaves the device.</p>
+    </div>
+    <div class="inno-box">
+      <h4>2. First AI Bridging Software + Hardware</h4>
+      <p>No existing AI tool coordinates digital scanning (Nmap, SQLMap) with physical hacking devices (Flipper Zero RFID, HackRF radio, WiFi deauth) in a single automated mission.</p>
+    </div>
+    <div class="inno-box">
+      <h4>3. Anti-Hallucination Architecture</h4>
+      <p>AI picks from pre-validated action templates + retrieves knowledge from embedded HackTricks/OWASP database. Every command passes safety validation before execution.</p>
+    </div>
+    <div class="inno-box">
+      <h4>4. Universal Tool Interface</h4>
+      <p>Auto-discovers ALL installed tools at boot by reading their help pages. Install any new tool → FRIDAY can use it immediately. No code changes or wrappers needed.</p>
+    </div>
+  </div>
+
+  <div class="footer-brand">FRIDAY Omega — SSIP 2.0</div>
+  <div class="page-num">5 / 10</div>
+</div>
+
+<!-- SLIDE 6: COMPETITOR TABLE -->
+<div class="slide">
+  <div class="label">Competitive Analysis</div>
+  <h2>How We Compare</h2>
+
+  <table>
+    <tr>
+      <th>Tool</th>
+      <th>Works Offline</th>
+      <th>Hardware</th>
+      <th>Autonomous AI</th>
+      <th>Voice Control</th>
+      <th>Open Source</th>
+    </tr>
+    <tr>
+      <td>PentestGPT</td>
+      <td class="no">❌ Cloud (GPT-4)</td>
+      <td class="no">❌ None</td>
+      <td class="maybe">⚠ Semi</td>
+      <td class="no">❌ No</td>
+      <td class="yes">✅ Yes</td>
+    </tr>
+    <tr>
+      <td>HackerGPT</td>
+      <td class="no">❌ SaaS only</td>
+      <td class="no">❌ None</td>
+      <td class="maybe">⚠ Semi</td>
+      <td class="no">❌ No</td>
+      <td class="no">❌ No</td>
+    </tr>
+    <tr>
+      <td>Pentera</td>
+      <td class="no">❌ Cloud</td>
+      <td class="no">❌ None</td>
+      <td class="yes">✅ Yes</td>
+      <td class="no">❌ No</td>
+      <td class="no">❌ No</td>
+    </tr>
+    <tr>
+      <td>Flipper Zero</td>
+      <td class="yes">✅ Offline</td>
+      <td class="yes">✅ Yes</td>
+      <td class="no">❌ Manual</td>
+      <td class="no">❌ No</td>
+      <td class="yes">✅ Yes</td>
+    </tr>
+    <tr>
+      <td>Kali Linux</td>
+      <td class="yes">✅ Offline</td>
+      <td class="maybe">⚠ Manual</td>
+      <td class="no">❌ Manual</td>
+      <td class="no">❌ No</td>
+      <td class="yes">✅ Yes</td>
+    </tr>
+    <tr class="highlight">
+      <td><strong>FRIDAY Omega</strong></td>
+      <td><strong>✅ Local AI</strong></td>
+      <td><strong>✅ Full</strong></td>
+      <td><strong>✅ ReAct Loop</strong></td>
+      <td><strong>✅ Yes</strong></td>
+      <td><strong>✅ Yes</strong></td>
+    </tr>
+  </table>
+
+  <p style="font-size: 12px; color: #888; margin-top: 12px;">FRIDAY is the only solution at the intersection of: Offline ✅ + Hardware ✅ + Autonomous AI ✅ + Voice ✅ + Open Source ✅</p>
+
+  <div class="footer-brand">FRIDAY Omega — SSIP 2.0</div>
+  <div class="page-num">6 / 10</div>
+</div>
+
+<!-- SLIDE 7: MARKET SIZE -->
+<div class="slide green">
+  <div class="label">Market Opportunity</div>
+  <h2>Large and Growing Market</h2>
+
+  <div class="cards">
+    <div class="card">
+      <div class="num blue">$2.74B</div>
+      <div class="desc">Global Pentest Market 2025</div>
+    </div>
+    <div class="card">
+      <div class="num blue">$504M</div>
+      <div class="desc">AI Pentest Services (21.7% CAGR)</div>
+    </div>
+    <div class="card">
+      <div class="num green">$11.3B</div>
+      <div class="desc">India Cybersecurity Market 2025</div>
+    </div>
+  </div>
+
+  <div class="cols" style="margin-top: 16px;">
+    <div class="col">
+      <h3>Target Users</h3>
+      <ul>
+        <li><strong>Indian SMEs (63M)</strong> — self-audit without hiring security teams</li>
+        <li><strong>Security Consultants</strong> — portable tool, automated reports in 30 min</li>
+        <li><strong>Defense & Military</strong> — air-gapped network auditing, zero data leaks</li>
+        <li><strong>Intelligence (RAW, IB, NIA)</strong> — OSINT + field operations</li>
+        <li><strong>State Police Cyber Cells</strong> — portable forensics & analysis</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h3>Why India Needs This</h3>
+      <ul>
+        <li>CERT-In incidents 4× since 2019 — national infrastructure at risk</li>
+        <li>DPDPA Act mandates security compliance across govt systems</li>
+        <li>China & Pakistan state-sponsored cyber attacks increasing yearly</li>
+        <li>Make-in-India AI solution — no foreign dependency</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="source">Sources: Mordor Intelligence, Straits Research, IMARC Group, Data Insights Market</p>
+  <div class="footer-brand">FRIDAY Omega — SSIP 2.0</div>
+  <div class="page-num">7 / 10</div>
+</div>
+
+<!-- SLIDE 8: HOW IT WORKS -->
+<div class="slide">
+  <div class="label">How It Works</div>
+  <h2>A Real-World Example: "Audit My Office Network"</h2>
+
+  <div class="cols">
+    <div class="col">
+      <h3>What Happens Automatically</h3>
+      <ul>
+        <li><strong>Step 1:</strong> User speaks: "FRIDAY, audit my office network"</li>
+        <li><strong>Step 2:</strong> AI runs Nmap → discovers 12 devices, 47 open ports</li>
+        <li><strong>Step 3:</strong> AI spots Apache 2.4.49 on port 80 → queries CVE database → finds CVE-2021-41773</li>
+        <li><strong>Step 4:</strong> AI runs Nikto on web ports → finds SQL injection parameter</li>
+        <li><strong>Step 5:</strong> AI runs SQLMap on that parameter → confirms vulnerability</li>
+        <li><strong>Step 6:</strong> AI scans WiFi using adapter → checks for weak WPA2 passwords</li>
+        <li><strong>Step 7:</strong> AI generates full PDF report with findings + fix recommendations</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h3>Key Technical Components</h3>
+      <ul>
+        <li><strong>Local AI:</strong> Qwen2.5-Coder 7B model running via Ollama — no cloud needed</li>
+        <li><strong>RAG Knowledge:</strong> Embedded HackTricks + OWASP guide for expert-level decisions</li>
+        <li><strong>Tool Registry:</strong> Auto-detects all 600+ installed Kali/BlackArch tools at boot</li>
+        <li><strong>Safety Layer:</strong> Every AI command validated before execution — blocked if dangerous</li>
+        <li><strong>Target Model:</strong> SQLite knowledge graph stores all findings persistently</li>
+        <li><strong>Anonymity:</strong> Tor + Proxychains + MAC spoofing enabled by default</li>
+      </ul>
+      <div class="highlight-box" style="margin-top: 10px; font-size: 12px;">
+        <strong>Total time:</strong> 30 minutes (vs 2-3 days for manual pentest)
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-brand">FRIDAY Omega — SSIP 2.0</div>
+  <div class="page-num">8 / 10</div>
+</div>
+
+<!-- SLIDE 9: PROJECT ROADMAP -->
+<div class="slide green">
+  <div class="label">Project Roadmap</div>
+  <h2>Development Plan & Milestones</h2>
+
+  <div class="cols">
+    <div class="col">
+      <h3>Phase 1 — Core AI Engine (Month 1-2)</h3>
+      <ul>
+        <li>Universal Tool Registry — auto-discover all Kali tools</li>
+        <li>ReAct Decision Loop — autonomous think→act→observe AI brain</li>
+        <li>Target Knowledge Graph — persistent findings in SQLite</li>
+        <li>Safety Validator — block dangerous commands before execution</li>
+      </ul>
+      <h3 style="margin-top: 14px;">Phase 2 — Intelligence Layer (Month 2-3)</h3>
+      <ul>
+        <li>RAG Knowledge Base — embedded HackTricks + OWASP methodology</li>
+        <li>Online↔Offline Bridge — OSINT feeds into local tools</li>
+        <li>Anonymity Layer — Tor, Proxychains, MAC spoofing</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h3>Phase 3 — Hardware Integration (Month 3-4)</h3>
+      <ul>
+        <li>Flipper Zero bridge via pyFlipper — RFID, NFC, SubGHz, IR</li>
+        <li>HackRF integration — RF capture and replay</li>
+        <li>WiFi monitor mode — handshake capture, network audit</li>
+        <li>Voice pipeline — VAD → Whisper STT → AI → Kokoro TTS</li>
+      </ul>
+      <h3 style="margin-top: 14px;">Phase 4 — Deployment (Month 4-5)</h3>
+      <ul>
+        <li>Package on Kali Linux mini-PC (16GB RAM)</li>
+        <li>Field testing with partner SMEs in Gujarat</li>
+        <li>PDF report generation + dashboard UI</li>
+        <li>Beta release to early adopter security consultants</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-brand">FRIDAY Omega — SSIP 2.0</div>
+  <div class="page-num">9 / 10</div>
+</div>
+
+<!-- SLIDE 10: CLOSING -->
+<div class="slide">
+  <div class="title-center">
+    <div class="label">Vision</div>
+    <h1 style="font-size: 28px;">Cybersecurity for Every Indian<br>— From SMEs to National Defense</h1>
+    <p style="font-size: 15px; color: #666; max-width: 560px; margin: 10px auto 24px;">
+      A Made-in-India, fully offline AI that gives businesses, security professionals, and defense forces an autonomous cybersecurity capability — with zero foreign dependency.
+    </p>
+
+    <div class="closing-box" style="max-width: 520px;">
+      <div style="font-size: 13px; color: #555; line-height: 1.8;">100% Offline • 100% Indian • Voice-Controlled AI • 600+ Security Tools • Hardware Integration • Autonomous Operations • Defense-Grade Security</div>
+    </div>
+
+    <div style="margin-top: 28px; font-size: 14px; color: #888;">
+      <strong style="color: #333;">Chahat Jain</strong> &nbsp;•&nbsp; GTU &nbsp;•&nbsp; March 2026
+    </div>
+  </div>
+  <div class="page-num">10 / 10</div>
+</div>
+
+</body>
+</html>

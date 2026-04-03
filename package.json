@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "friday-omega",
+  "version": "2.2.0",
+  "description": "F.R.I.D.A.Y. Omega Edition - AI Assistant Desktop App",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "dist": "electron-builder --publish=never"
+  },
+  "author": "F.R.I.D.A.Y. Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.28.3",
+    "@babel/preset-env": "^7.28.5",
+    "@babel/preset-react": "^7.28.5",
+    "electron": "^39.2.6",
+    "electron-builder": "^25.0.0",
+    "electron-is-dev": "^2.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.24.3",
+    "@picovoice/porcupine-web": "^3.0.3",
+    "better-sqlite3": "^12.5.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "electron-updater": "^6.6.2",
+    "express": "^5.2.1",
+    "google-translate-api-x": "^10.7.2",
+    "multer": "^2.0.2",
+    "node-record-lpcm16": "^1.0.1",
+    "openai-whisper": "^1.0.2",
+    "react-devtools": "^1.0.5",
+    "sql.js": "^1.13.0"
+  },
+  "build": {
+    "appId": "com.friday.omega",
+    "productName": "F.R.I.D.A.Y. Omega",
+    "directories": {
+      "output": "dist"
+    },
+    "publish": {
+      "provider": "generic",
+      "url": "https://your-private-server.com/updates"
+    },
+    "files": [
+      "**/*",
+      "!dist/**/*",
+      "!build/**/*",
+      "!*.md",
+      "!scripts/**/*",
+      "!node_modules/**/*",
+      "!models/**/*",
+      "!storage/**/*",
+      "!memory/**/*",
+      "!logs/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "icon.ico",
+      "sign": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "icon.ico",
+      "uninstallerIcon": "icon.ico",
+      "installerHeaderIcon": "icon.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "F.R.I.D.A.Y. Omega"
+    },
+    "afterPack": "./scripts/afterPack.js",
+    "npmRebuild": false,
+    "buildDependenciesFromSource": false,
+    "nodeGypRebuild": false
+  }
+}
