@@ -12,41 +12,28 @@ An autonomous, agentic AI cybersecurity penetration testing assistant powered by
 ![FRIDAY UI Demo](./friday_ui_demo.webp)
 *Interactive Mission Dashboard reporting backend health stats and system diagnostics.*
 
-## Architecture
+## System Architecture (Input-to-Output Pipeline)
 
 ```mermaid
-graph TD
-    classDef frontend fill:#1f2937,stroke:#6366f1,stroke-width:2px,color:#fff
-    classDef backend fill:#111827,stroke:#10b981,stroke-width:2px,color:#fff
-    classDef agent fill:#374151,stroke:#f59e0b,stroke-width:1px,color:#fff
-    classDef db fill:#0f172a,stroke:#ec4899,stroke-width:2px,color:#fff
+sequenceDiagram
+    participant U as User / HUD
+    participant E as Egress/Ingress (FastAPI)
+    participant V as ChromaDB (Memory)
+    participant A as Auth Firewall
+    participant O as Orchestrator (LLM)
+    participant T as Tools (Nmap/ADB)
 
-    UI[ Electron + React HUD <br/> Iron Man-style Dashboard ]:::frontend
-    
-    subgraph "FastAPI Backend Server"
-        MC[ Multi-Agent Coordinator ]:::backend
-        
-        PA[ Pentest Agent ]:::agent
-        IA[ IoT Agent ]:::agent
-        BH[ Bug Hunter Agent ]:::agent
-        MA[ Mobile Agent ]:::agent
-        OA[ OSINT Agent ]:::agent
-        
-        MC --> PA & IA & BH & MA & OA
-    end
-    
-    UI <-->|WebSockets / REST| MC
-    
-    subgraph "Local Intelligence & Memory"
-        LLM[( Ollama / DeepSeek-R1 )]:::db
-        VDB[( ChromaDB )]:::db
-        CVE[( Local CVE DB )]:::db
-    end
-    
-    PA -.-> LLM
-    IA -.-> LLM
-    BH -.-> CVE & LLM 
-    MC <--> VDB
+    U->>E: "Scan 192.168.1.15"
+    E->>V: Embed Query & Retrieve Context
+    V-->>E: Return Past Scan History
+    E->>A: Validate Target (192.168.1.15)
+    A-->>E: Authorized = True
+    E->>O: Dispatch Pentest Agent
+    O->>T: Execute `nmap -sV`
+    T-->>O: Raw Port Data
+    O->>O: Correlate with CVE DB
+    O->>E: Generate Playbook & Summary
+    E->>U: JSON Payload (WebSocket Push)
 ```
 
 ## Core Features
