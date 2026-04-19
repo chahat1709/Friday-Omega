@@ -1,12 +1,15 @@
 # 🦅 **Project Bible: AI-Powered Secure Penetration Testing Assistant**
 *(Technical Name: FRIDAY Omega - "Personaplex" Edition)*
 
-## 1. 🚀 **Executive Summary**
-This project is an **AI-native Cybersecurity Assistant** designed to democratize professional penetration testing. Unlike traditional tools (which are complex CLI utilities like Kali Linux) or automated scanners (which generate noise), this project uses **Agentic AI** to:
-1.  **Orchestrate Tools**: It manages Nmap, Metasploit, and ADB automatically.
-2.  **Enforce Safety**: It prevents unauthorized attacks using a strict "Authorization-First" protocol.
-3.  **Provide Answers, Not Data**: It generates **Remediation Playbooks** and compliance maps (ISO 27001), not just raw logs.
-4.  **Operate Locally**: It runs offline (Ollama/Local LLM) for complete data privacy.
+## 1. 🚀 **Elon Musk Master Vision: The Autonomous Cyber-Physical Red Team**
+
+**The Fundamental Problem:** Current cybersecurity is fundamentally siloed and backward. Network penetration testers rarely audit hardware signals, and hardware engineers rarely automate network exploits. Yet, the most devastating modern breaches—like compromising an entire corporate campus or a piece of smart infrastructure—require bridging the physical-to-digital gap. Operating a coordinated, multi-domain attack simulation today requires a massive, highly paid Red Team. It is slow, expensive, and fails to scale.
+
+**The Master Goal:** To build the world's first **fully autonomous, multi-domain threat emulation engine** operating from a portable Cyberdeck. 
+
+FRIDAY Omega is not just a software script; it is an active, model-agnostic AI orchestrator (compatible with *any* AI model) capable of auditing an entire physical and digital attack surface simultaneously. By synthesizing AI reasoning with both standard network tools (Nmap/Metasploit) and advanced physical/RF hardware (HackRF, Flipper Zero, Proxmark3), the AI simulates Advanced Persistent Threats (APTs) that span from the electromagnetic spectrum directly to the cloud backend.
+
+*(Note: While possessing this capability, FRIDAY Omega is structurally constrained by an Authorization-First Protocol, acting purely as an emulation layer for authorized security auditing.)*
 
 ---
 
